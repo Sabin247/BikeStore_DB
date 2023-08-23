@@ -9,10 +9,15 @@
 **-- Creating Tables for the entities.**
 
 CREATE TABLE LOCATION (
+
   Location_Num Varchar2(10) CONSTRAINT location_pk Primary Key,
+  
   Address Varchar2(40),
+  
   Zip Char(5),
+  
   Loc_phn_Number Varchar(10)
+  
 );
 
 **--Inserting values into Location Table**
