@@ -7,6 +7,7 @@
 
 
 **-- Creating Tables for the entities.**
+
 CREATE TABLE LOCATION (
   Location_Num Varchar2(10) CONSTRAINT location_pk Primary Key,
   Address Varchar2(40),
@@ -15,6 +16,7 @@ CREATE TABLE LOCATION (
 );
 
 **--Inserting values into Location Table**
+
 Insert INTO LOCATION VALUES
 ('101', 'Minneapolis', '56307', '3201234567');
 Insert INTO LOCATION VALUES
@@ -30,6 +32,7 @@ Insert INTO LOCATION VALUES
 
 
 **--Creating Manufacturer table**
+
 CREATE TABLE MANUFACTURER (
   Manu_ID Varchar2(10)  CONSTRAINT Manu_ID_pk Primary Key,
   Manu_Name Varchar2(25),
@@ -48,6 +51,7 @@ Insert INTO MANUFACTURER VALUES
 
 
 **--Creating employee table**
+
 CREATE TABLE EMPLOYEE (
   Emp_Num Varchar2(10) CONSTRAINT Emp_ID_pk Primary Key,
   Emp_Name Varchar2(25),
@@ -59,6 +63,7 @@ CREATE TABLE EMPLOYEE (
 );
 
 **--Inserting values into Employee table**
+
 INSERT INTO EMPLOYEE VALUES
 ('401', 'Ram', 'Employee', '9th street SE', '3201231324', 1000, '101');
 INSERT INTO EMPLOYEE VALUES
@@ -70,6 +75,7 @@ INSERT INTO EMPLOYEE VALUES
 
 
 **--Creating Bike Tables**
+
 CREATE TABLE BIKE (
   Bike_ID Varchar2(10) CONSTRAINT Bike_ID_pk Primary Key,
   Bike_Desc Varchar2(100),
@@ -81,6 +87,7 @@ CREATE TABLE BIKE (
 );
 
 **--Inserting values into bike table**
+
 Insert into Bike VALUES
 ('901', 'high performance', 'Mountain', 100, 'AVAILABLE', '101', '501');
 Insert into Bike VALUES
@@ -92,6 +99,7 @@ Insert into Bike VALUES
 
 
 **--Creating member table**
+
 CREATE TABLE MEMBER (
   Mem_ID Varchar2(10) CONSTRAINT Mem_ID_pk Primary Key,
   Mem_FN Varchar2(25),
@@ -104,6 +112,7 @@ CREATE TABLE MEMBER (
 );
 
 **--Inserting values into Member table**
+
 INSERT INTO MEMBER VALUES
 ('1011', 'Ram', 'Tiwari', '16th street', '3201122345', 'ONLINE',  0, 100);
 INSERT INTO MEMBER VALUES
@@ -116,6 +125,7 @@ INSERT INTO MEMBER VALUES
 
 
 **--Creating Rent_info table** 
+
 CREATE TABLE RENT_INFO (
   Rental_ID Varchar2(10) CONSTRAINT Rent_ID_pk Primary Key,
   Mem_ID Varchar2(10) CONSTRAINT Rent_Mem_FK REFERENCES MEMBER(Mem_ID),
@@ -127,6 +137,7 @@ CREATE TABLE RENT_INFO (
   Loc_Returned Varchar(25) CONSTRAINT Loc_returned_in_FK REFERENCES Location(Location_Num));
 
 **--Inserting values into Rent_Info table**
+
 INSERT INTO RENT_INFO VALUES 
 ('2001', '1011', '901', '12-Nov-2022', '13-Nov-2022', NULL, '101', NULL);
 INSERT INTO RENT_INFO VALUES 
@@ -159,7 +170,7 @@ INSERT INTO INVOICE VALUES
 INSERT INTO INVOICE VALUES
 ('204', '1014', '2007', 3,0);
 
-select * from Invoice;
+
 
 
 **-- TRIGGER 1
@@ -184,52 +195,9 @@ For each row
     end;
     /
     
-    Select * From Rent_Info;
-   INSERT INTO RENT_INFO VALUES 
-('2004', '1013', '903', '11-Nov-2022', '12-Nov-2022', '12-Nov-2022', '101', '101'); 
-    
-    INSERT INTO RENT_INFO VALUES 
-('2006', '1011', '904','12-Nov-2022', '13-Nov-2022', NULL, '102', NULL );
+   
 
-
-
-
-
-Create or replace trigger late_fee
-before update of Actl_Rtrn_Date on RENT_INFO
-for each row
-
-
-declare 
-date_returned   rent_info.actl_rtrn_date%type;
-LateFee invoice.late_fee%type;
-Begin
-Select Late_Fee
-INTO LateFee
-FROM INVOICE
-Where Mem_Id = :new.Mem_id;
-
-if :NEW.Actl_Rtrn_Date> :OLD.Exp_Rtrnh Then 
-LateFee :=(:New.Actl_Rtrn_Date - :OLD.Exp_Rtrnh)*20;
-	ELSE
-    LateFee := 0;
-END IF; 
-update Member set Unpaid_Balance = unpaid_balance + LateFee
-where Mem_id= :new.Mem_id;
-END;
-/
-
-UPDATE RENT_INFO
-set Actl_Rtrn_Date = '06-Dec-2022'
-Where Mem_Id = 1014;
-
-select * from Member;
-
-
-
-Select * from Rent_info;
-
-**--Trigger 3--
+**--Trigger 2--
 --Trigger for unpaid balance of more than 500**
 
 create or replace trigger UnpaidBalance
@@ -248,17 +216,7 @@ Raise_application_error(-20004, 'You have unpaid balance of 500. Please, pay it 
 end if;
 end;
 /
-select * from Rent_Info;
-select * from Member;
 
-  INSERT INTO RENT_INFO VALUES 
-('2005', '1012', '903', '11-Nov-2022', '12-Nov-2022', '12-Nov-2022', '101', '101');
-
-  INSERT INTO RENT_INFO VALUES 
-('2006', '1013', '903', '11-Nov-2022', '12-Nov-2022', '12-Nov-2022', '101', '101');
-
-Select * from Member;
-Select * from Rent_Info;
 
 
 
