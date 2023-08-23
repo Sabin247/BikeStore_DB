@@ -2,6 +2,8 @@
 
 **-- In this project, I am creating a database for a bicycle renting company. It will include tables, LOCATION, MANUFACTURER, EMPLOYEE, BIKE, 
 -- MEMBER, RENT_INFO, INVOICE.  We also created triggers that will implement two business rule**
+**--1. It will show an error 2002 whenever user tries to rent more than two bikes.**
+**--2. It will show an error 2004 whenever user has unpaid balance above $500.**
 
 
 **-- Creating Tables for the entities.**
